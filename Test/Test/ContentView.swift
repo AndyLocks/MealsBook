@@ -62,6 +62,31 @@ struct ContentView: View {
                     }.contentShape(Rectangle())
                     TextField("Search", text: $fieldInput)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Button("Random") {
+                        var request = URLRequest(url: URL(string: "https://www.themealdb.com/api/json/v1/1/random.php")!)
+                        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                            let JSON: String = String(decoding: data!, as: UTF8.self)
+                            let jsonData = JSON.data(using: .utf8)!
+                            mailsPost = Meals(meals: nil)
+                            mailsPost = try! JSONDecoder().decode(Meals.self, from: jsonData)
+                            
+                            if mailsPost.meals != nil{
+                                text1 = mailsPost.meals![sectionField].strMeal
+                                buttonText = mailsPost.meals![sectionField].strInstructions
+                                categoryAndArea = "\(mailsPost.meals![sectionField].strArea): \(mailsPost.meals![sectionField].strCategory)"
+                                image = mailsPost.meals![sectionField].strMealThumb
+                                imageDivider = true
+                            }
+                            else {
+                                text1 = ""
+                                buttonText = "Das Gericht wurde nicht gefunden"
+                                categoryAndArea = ""
+                                image = ""
+                                imageDivider = false
+                            }
+                        }
+                        task.resume()
+                    }.contentShape(Rectangle())
                 }
             }
             ScrollView{
