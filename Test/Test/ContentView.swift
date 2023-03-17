@@ -6,14 +6,11 @@ struct Meal : Decodable, Identifiable{
     let id = UUID()
     let idMeal: String
     let strMeal: String
-    //var strTags: String
-    //var strDrinkAlternate: String?
-    //var strYoutube: String?
+    
     let strMealThumb: String
     let strCategory: String
     let strArea: String
     let strInstructions: String
-    //var strIngredient: String?
 }
 
 struct ContentView: View {
@@ -22,18 +19,17 @@ struct ContentView: View {
     @State private var instructions: String = ""
     @State private var categoryAndArea: String = ""
     @State private var buttonText: String = ""
-    @State private var fieldInput: String = ""
+    @State public var fieldInput: String = ""
     @State private var image: String = ""
     @State private var imageDivider: Bool = false
     @State private var sectionField: Int = 0
     @State private var mailsPost: Meals = Meals(meals: nil)
     @State private var opasityImage: Double = 0
-    
+    @State private var showIngridient: Bool = false
     var body: some View {
         VStack {
             Section{
                 HStack{
-                    
                     Button("OK"){
                         var request = URLRequest(url: URL(string: "https://www.themealdb.com/api/json/v1/1/search.php?s=" + fieldInput)!)
                         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -49,6 +45,8 @@ struct ContentView: View {
                                 image = mailsPost.meals![sectionField].strMealThumb
                                 imageDivider = true
                                 opasityImage = 100
+                                showIngridient = true
+                            
                             }
                             else {
                                 text1 = ""
@@ -57,6 +55,7 @@ struct ContentView: View {
                                 image = ""
                                 imageDivider = false
                                 opasityImage = 0
+                                showIngridient = false
                             }
                         }
                         task.resume()
@@ -64,7 +63,7 @@ struct ContentView: View {
                     }.contentShape(Rectangle())
                     TextField("Search", text: $fieldInput)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
+                    
                     Button("Random") {
                         var request = URLRequest(url: URL(string: "https://www.themealdb.com/api/json/v1/1/random.php")!)
                         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -80,6 +79,9 @@ struct ContentView: View {
                                 image = mailsPost.meals![sectionField].strMealThumb
                                 imageDivider = true
                                 opasityImage = 100
+                                showIngridient = true
+                                
+                                
                             }
                             else {
                                 text1 = ""
@@ -88,59 +90,72 @@ struct ContentView: View {
                                 image = ""
                                 imageDivider = false
                                 opasityImage = 0
+                                showIngridient = false
                             }
                         }
                         task.resume()
                     }.contentShape(Rectangle())
                 }
             }
+            Divider()
             ScrollView{
-            HStack {
-                Text(text1)
-                    .font(.title)
-                    .colorMultiply(.blue)
-                    .fontWeight(.black)
-            }
-            AsyncImage(url: URL(string: image), scale: 5)
-                .frame(width: 125, height: 125)
-                .padding(.top, 3)
-                .clipShape(Circle())
-                .foregroundColor(.white)
-                .overlay {
-                                Circle().stroke(.white, lineWidth: 3)
-                            }
-                .opacity(opasityImage)
-                .shadow(radius: 7)
-            if imageDivider{
-                Divider()
-            }
-            
+                HStack {
+                    Text(text1)
+                        .font(.title)
+                        .colorMultiply(.blue)
+                        .fontWeight(.black)
+                }
+                AsyncImage(url: URL(string: image), scale: 5)
+                    .frame(width: 125, height: 125)
+                    .padding(.top, 3)
+                    .clipShape(Circle())
+                    .foregroundColor(.white)
+                    .overlay {
+                        Circle().stroke(.white, lineWidth: 3)
+                    }
+                    .opacity(opasityImage)
+                    .shadow(radius: 7)
+                if imageDivider{
+                    Divider()
+                }
+                
                 
                 Text(buttonText)
                     .font(.subheadline)
                     .padding(.top, 5)
+                
+                
             }.backgroundStyle(.white)
+                .padding(.bottom, -300)
             
-                    Section{
-                        if mailsPost.meals != nil {
-                            Picker(selection: $sectionField, label: Text("Meals"), content: {
-                                ForEach(0 ..< mailsPost.meals!.count) { index in
-                                    
-                                        Text(self.mailsPost.meals![index].strMeal).tag(index)
-                                    
-                                }
-
-                            })
+            
+            
+            Divider().padding(.top, 300)
+            
+            
+            
+            
+            
+            
+            
+            if mailsPost.meals != nil {
+                VStack{
+                    Text(categoryAndArea)
+                        .foregroundColor(.gray)
+                    Picker(selection: $sectionField, label: Text("Meals"), content: {
+                        ForEach(0 ..< mailsPost.meals!.count) { index in
+                            
+                            Text(self.mailsPost.meals![index].strMeal).tag(index)
+                            
                         }
-                    }
-
                         
-                        Divider()
-                        
-                        Text(categoryAndArea)
-                            .foregroundColor(.gray)
-                            .padding(.top, 3)
+                    })
                     
+                }.padding(.bottom, -30)
+            }
+            
+            
+            
         }
         .padding()
     }

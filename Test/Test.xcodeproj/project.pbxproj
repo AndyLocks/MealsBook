@@ -44,6 +44,7 @@
 		8F2B20F529C1B54A006B0261 /* TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F2B20F929C1B54A006B0261 /* TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUITests.swift; sourceTree = "<group>"; };
 		8F2B20FB29C1B54A006B0261 /* TestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8F2B211029C46960006B0261 /* mealsMarkData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mealsMarkData.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,9 +95,10 @@
 		8F2B20DD29C1B548006B0261 /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				8F2B210E29C468FA006B0261 /* Model */,
+				8F2B210F29C468FA006B0261 /* Resources */,
 				8F2B20DE29C1B548006B0261 /* TestApp.swift */,
 				8F2B20E029C1B548006B0261 /* ContentView.swift */,
-				8F2B20E229C1B549006B0261 /* Assets.xcassets */,
 				8F2B20E429C1B549006B0261 /* Preview Content */,
 			);
 			path = Test;
@@ -105,6 +107,7 @@
 		8F2B20E429C1B549006B0261 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				8F2B20E229C1B549006B0261 /* Assets.xcassets */,
 				8F2B20E529C1B549006B0261 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -125,6 +128,21 @@
 				8F2B20FB29C1B54A006B0261 /* TestUITestsLaunchTests.swift */,
 			);
 			path = TestUITests;
+			sourceTree = "<group>";
+		};
+		8F2B210E29C468FA006B0261 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8F2B210F29C468FA006B0261 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8F2B211029C46960006B0261 /* mealsMarkData.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
